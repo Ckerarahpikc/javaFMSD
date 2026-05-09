@@ -182,6 +182,10 @@ public class App extends Application {
       // code here
     });
 
+    exitProgramButton.setOnAction(event -> {
+      Platform.exit();
+    });
+
     // LAYOUT BUILDUP ========================================
     gridPane.setGridLinesVisible(false); // show grid lines
 
