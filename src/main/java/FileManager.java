@@ -26,7 +26,7 @@ class FileManager {
         this.status = "Success";
         this.message = "File '" + file.getName() + "' was created.";
       } else {
-        this.status = "Infrmational";
+        this.status = "Informational";
         this.message = "File '" + file.getName() + "' already exists.";
       }
     } catch (IOException e) {
