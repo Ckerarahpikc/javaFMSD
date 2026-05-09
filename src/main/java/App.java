@@ -125,27 +125,22 @@ public class App extends Application {
 
     // FUNCTIONALITY =====================================
     createFileButton.setOnAction(event -> { // create file
-      try {
-        fileService = new FileManager(fileNameField.getText());
-        fileService.createFile();
+      fileService = new FileManager(fileNameField.getText());
+      fileService.createFile();
+
+      statusLabel.setText("Status: " + (fileService.getStatus() == "Success"));
+      messageLabel.setText("Message: " + fileService.getMessage());
+
+      if (fileService.getStatus() == "Success") {
+        addDataButton.disableProperty().unbind();
+        addDataButton.setDisable(false);
+        deleteFileButton.disableProperty().unbind();
+        deleteFileButton.setDisable(false);
         createFileButton.disableProperty().unbind();
         createFileButton.setDisable(true);
 
-        // enable other buttons (since now it's possible)
-        addDataButton.setDisable(false);
-        deleteFileButton.setDisable(false);
-
         // fileNameField.clear();
         fileNameField.setEditable(false);
-      } catch (Exception e) {
-        statusLabel.setText("Status: Error");
-        messageLabel.setText("Message: An unexpected error occured");
-      } finally {
-        // update status
-        if (fileService != null) {
-          statusLabel.setText("Status: " + fileService.getStatus());
-          messageLabel.setText("Message: " + fileService.getMessage());
-        }
       }
     });
 
