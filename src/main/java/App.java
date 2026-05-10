@@ -179,7 +179,26 @@ public class App extends Application {
     });
 
     viewFileButton.setOnAction(event -> {
-      // code here
+      fileService.showFileContent();
+
+      // stage
+      Stage secondaryStage = new Stage();
+      secondaryStage.setTitle("Content");
+
+      // vbox (layout);
+      VBox secondaryLayout = new VBox(20);
+      Label contentLabel = new Label(fileService.getMessage());
+
+      Button closeLayoutButton = new Button("Close View");
+      closeLayoutButton.setOnAction(e -> secondaryStage.close());
+
+      secondaryLayout.getChildren().addAll(contentLabel, closeLayoutButton);
+     
+      // create the scene and show the stage
+      Scene sceneContent = new Scene(secondaryLayout, 500, 300);
+      secondaryStage.setScene(sceneContent);
+
+      secondaryStage.show();
     });
 
     exitProgramButton.setOnAction(event -> {
