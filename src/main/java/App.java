@@ -26,6 +26,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 
 import java.util.*;
+import java.io.*;
+import java.nio.file.*;
 
 public class App extends Application {
   private FileManager fileService;
@@ -35,7 +37,7 @@ public class App extends Application {
   public void start(Stage primaryStage) {
     GridPane gridPane = new GridPane();
     HBox lineBoxCreateFile = new HBox(30);
-    HBox lineBoxEditFile = new HBox(30);
+    HBox lineBoxEditFile = new HBox(10);
     HBox nrBox = new HBox(10);
     HBox fNameBox = new HBox(10);
     HBox lNameBox = new HBox(10);
@@ -67,7 +69,8 @@ public class App extends Application {
     Button createFileButton = new Button("Create File");
     Button addDataButton = new Button("Add Data");
     Button viewFileButton = new Button("View File");
-    Button editFileButton = new Button("Find Person by ID");
+    Button findPersonByIdButton = new Button("Find Person by ID");
+    Button editFileButton = new Button("Edit Data");
     Button deleteFileButton = new Button("Delete File");
     Button executeTaskButton = new Button("Execute Task");
     Button exitProgramButton = new Button("Exit");
@@ -157,7 +160,7 @@ public class App extends Application {
       }
     });
 
-    addDataButton.setOnAction(event -> { // add
+    addDataButton.setOnAction(event -> { // add data
       try {
         String nr = nrField.getText();
         String fName = fNameField.getText();
@@ -191,7 +194,7 @@ public class App extends Application {
       }
     });
 
-    viewFileButton.setOnAction(event -> {
+    viewFileButton.setOnAction(event -> { // view data
       fileService.showFileContent();
 
       // stage (window)
@@ -213,9 +216,59 @@ public class App extends Application {
       secondaryStage.show();
     });
 
-    // editFileButton.setOnAction(event -> {
-    // fileService.modifyFileContent();
-    // });
+    findPersonByIdButton.setOnAction(event -> { // edit data
+      String file = fileNameField.getText() + ".txt";
+
+      if (!new File(file).exists()) {
+        messageLabel.setText("Message: File doesn't exist");
+        statusLabel.setText("Status: Informational");
+        return;
+      }
+
+      // ioexception error handling
+      try {
+        List<String> listOfRawData = Files.readAllLines(Path.of(file));
+
+        for (int i = 0; i < listOfRawData.size(); ++i) {
+          String[] listOfData = listOfRawData.get(i).trim().split(",");
+          if (listOfData[0].trim().equals(findIdField.getText().trim())) {
+            editNrField.setText(listOfData[0]);
+            editFNameField.setText(listOfData[1]);
+            editLNameField.setText(listOfData[2]);
+            editAddressField.setText(listOfData[3]);
+            editPhoneField.setText(listOfData[4]);
+            editProfileField.setText(listOfData[5]);
+            editYearField.setText(listOfData[6]);
+            editGradeField.setText(listOfData[7]);
+
+            messageLabel.setText("Message: Data loaded for editin.");
+            statusLabel.setText("Status: Success");
+            return;
+          }
+          // if not found
+          messageLabel.setText("Message: Couldn't find this ID.");
+          statusLabel.setText("Status: Informational");
+        }
+      } catch (IOException e) {
+        messageLabel.setText("An error occured.");
+        statusLabel.setText("Error");
+      }
+    });
+
+    editFileButton.setOnAction(e -> {
+      String rawData = String.join(",", editNrField.getText(),
+          editFNameField.getText(),
+          editLNameField.getText(),
+          editAddressField.getText(),
+          editPhoneField.getText(),
+          editProfileField.getText(),
+          editYearField.getText(),
+          editGradeField.getText());
+      fileService.modifyFileContent(findIdField.getText().trim(), rawData);
+
+      messageLabel.setText("Message: " + fileService.getMessage());
+      statusLabel.setText("Status: " + fileService.getStatus());
+    });
 
     exitProgramButton.setOnAction(event -> {
       Platform.exit();
@@ -267,7 +320,7 @@ public class App extends Application {
     lineBoxCreateFile.setAlignment(Pos.CENTER);
     gridPane.add(lineBoxCreateFile, 2, 4);
 
-    lineBoxEditFile.getChildren().addAll(editFileButton, findIdField);
+    lineBoxEditFile.getChildren().addAll(editFileButton, findPersonByIdButton, findIdField);
     lineBoxEditFile.setAlignment(Pos.CENTER);
     gridPane.add(lineBoxEditFile, 2, 5);
 
