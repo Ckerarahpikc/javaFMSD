@@ -272,6 +272,32 @@ public class App extends Application {
 
     deleteFileButton.setOnAction(e -> {
       fileService.deleteFile();
+      fileNameField.setEditable(true);
+      
+      messageLabel.setText("Message: " + fileService.getMessage());
+      statusLabel.setText("Status: " + fileService.getStatus());
+    });
+
+    executeTaskButton.setOnAction(event -> {
+      fileService.executeTask();
+      fileService.setContent();
+
+      // stage (window)
+      Stage stageExecuteTask = new Stage();
+      stageExecuteTask.setTitle("Content");
+
+      VBox layoutExecuteTask = new VBox(20);
+      Label contentLabel = new Label(fileService.getContent());
+
+      Button closeSecondaryButton = new Button("Close View");
+      closeSecondaryButton.setOnAction(e -> stageExecuteTask.close());
+
+      layoutExecuteTask.getChildren().addAll(contentLabel, closeSecondaryButton);
+
+      Scene sceneExecuteTask = new Scene(layoutExecuteTask, 500, 300);
+      stageExecuteTask.setScene(sceneExecuteTask);
+
+      stageExecuteTask.show();
 
       messageLabel.setText("Message: " + fileService.getMessage());
       statusLabel.setText("Status: " + fileService.getStatus());

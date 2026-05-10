@@ -4,9 +4,11 @@ import java.nio.file.*;
 import java.util.*;
 
 class FileManager {
+  private List<String> executeTaskData = new ArrayList<>();
   private String fileName;
   private String message;
   private String status;
+  private String content;
 
   FileManager(String fileName) {
     this.fileName = fileName;
@@ -100,6 +102,9 @@ class FileManager {
   }
 
   public void executeTask() {
+    // clear list
+    executeTaskData.clear();
+
     try {
       TreeSet<Ele> ts = new TreeSet<>(new Comparator<Ele>() {
         public int compare(Ele el1, Ele el2) {
@@ -122,12 +127,14 @@ class FileManager {
 
       for (Ele e : ts) {
         if (e.getGrade() >= 8.00) { // logic itself
-          System.out.println(e.getFName() + ": " + e.getGrade());
+          executeTaskData.add(e.getFName() + ": " + e.getGrade());
+          this.message = "Task executed successfully";
+          this.status = "Success";
         }
       }
     } catch (IOException e) {
-      System.out.println("An error occurred: " + e.getMessage());
-      e.printStackTrace();
+      this.message = "An error occurred: " + e.getMessage();
+      this.status = "Error";
     }
   }
 
@@ -136,7 +143,7 @@ class FileManager {
     if (file.exists()) {
       if (file.delete()) {
         this.message = "File was deleted. Good job.";
-        this.status = "Success"; 
+        this.status = "Success";
       } else {
         this.message = "Unfortunatelly we couldn't delete the file.";
         this.status = "Error";
@@ -153,5 +160,19 @@ class FileManager {
 
   public String getStatus() {
     return this.status;
+  }
+
+  public String getContent() {
+    return this.content;
+  }
+
+  public void setContent() {
+    if (executeTaskData.size() == 0) {
+      this.content = "There are no students with grade 8.00 or higher.";
+    } else {
+      this.content = String.join("\n", executeTaskData);
+    }
+    this.message = "Task successfully executed.";
+    this.status = "Success";
   }
 }
