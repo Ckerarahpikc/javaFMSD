@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.ColumnConstraints; // for the columns width
 
 // ui and controls
 import javafx.scene.control.ListView; // visual container for the ObservableList
@@ -330,22 +331,22 @@ public class App extends Application {
     gradeBox.getChildren().addAll(new Label("Grade (float)"), gradeField);
     gradeBox.setAlignment(Pos.CENTER_LEFT);
 
-    gridPane.add(addDataButton, 1, 5);
-    gridPane.add(nrBox, 1, 6);
-    gridPane.add(fNameBox, 1, 7);
-    gridPane.add(lNameBox, 1, 8);
-    gridPane.add(addressBox, 1, 9);
-    gridPane.add(phoneBox, 1, 10);
-    gridPane.add(profileBox, 1, 11);
-    gridPane.add(yearBox, 1, 12);
-    gridPane.add(gradeBox, 1, 13);
+    gridPane.add(addDataButton, 0, 5);
+    gridPane.add(nrBox, 0, 6);
+    gridPane.add(fNameBox, 0, 7);
+    gridPane.add(lNameBox, 0, 8);
+    gridPane.add(addressBox, 0, 9);
+    gridPane.add(phoneBox, 0, 10);
+    gridPane.add(profileBox, 0, 11);
+    gridPane.add(yearBox, 0, 12);
+    gridPane.add(gradeBox, 0, 13);
 
     gridPane.setHalignment(addDataButton, HPos.LEFT);
 
     // layout second column
-    gridPane.add(greetingLabel, 2, 1);
-    gridPane.add(messageLabel, 2, 2);
-    gridPane.add(statusLabel, 2, 3);
+    gridPane.add(greetingLabel, 1, 1);
+    gridPane.add(messageLabel, 1, 2);
+    gridPane.add(statusLabel, 1, 3);
 
     gridPane.setHalignment(messageLabel, HPos.CENTER);
     gridPane.setHalignment(statusLabel, HPos.CENTER);
@@ -353,11 +354,11 @@ public class App extends Application {
 
     lineBoxCreateFile.getChildren().addAll(createFileButton, fileNameField);
     lineBoxCreateFile.setAlignment(Pos.CENTER);
-    gridPane.add(lineBoxCreateFile, 2, 4);
+    gridPane.add(lineBoxCreateFile, 1, 4);
 
     lineBoxEditFile.getChildren().addAll(editFileButton, findPersonByIdButton, findIdField);
     lineBoxEditFile.setAlignment(Pos.CENTER);
-    gridPane.add(lineBoxEditFile, 2, 5);
+    gridPane.add(lineBoxEditFile, 1, 5);
 
     editNrBox.getChildren().addAll(new Label("Edit ID"), editNrField);
     editNrBox.setAlignment(Pos.CENTER);
@@ -376,14 +377,14 @@ public class App extends Application {
     editGradeBox.getChildren().addAll(new Label("Edit Grade"), editGradeField);
     editGradeBox.setAlignment(Pos.CENTER);
 
-    gridPane.add(editNrBox, 2, 6);
-    gridPane.add(editFNameBox, 2, 7);
-    gridPane.add(editLNameBox, 2, 8);
-    gridPane.add(editAddressBox, 2, 9);
-    gridPane.add(editPhoneBox, 2, 10);
-    gridPane.add(editProfileBox, 2, 11);
-    gridPane.add(editYearBox, 2, 12);
-    gridPane.add(editGradeBox, 2, 13);
+    gridPane.add(editNrBox, 1, 6);
+    gridPane.add(editFNameBox, 1, 7);
+    gridPane.add(editLNameBox, 1, 8);
+    gridPane.add(editAddressBox, 1, 9);
+    gridPane.add(editPhoneBox, 1, 10);
+    gridPane.add(editProfileBox, 1, 11);
+    gridPane.add(editYearBox, 1, 12);
+    gridPane.add(editGradeBox, 1, 13);
 
     // layout third column
     Label otherFunctionsText = new Label("Other Functions");
@@ -392,13 +393,17 @@ public class App extends Application {
     gridPane.setHalignment(executeTaskButton, HPos.RIGHT);
     gridPane.setHalignment(exitProgramButton, HPos.RIGHT);
     gridPane.setHalignment(viewFileButton, HPos.RIGHT);
-    gridPane.add(otherFunctionsText, 3, 5);
-    gridPane.add(viewFileButton, 3, 6);
-    gridPane.add(deleteFileButton, 3, 7);
-    gridPane.add(executeTaskButton, 3, 8);
-    gridPane.add(exitProgramButton, 3, 9);
+    gridPane.add(otherFunctionsText, 2, 5);
+    gridPane.add(viewFileButton, 2, 6);
+    gridPane.add(deleteFileButton, 2, 7);
+    gridPane.add(executeTaskButton, 2, 8);
+    gridPane.add(exitProgramButton, 2, 9);
 
     // positioning
+    ColumnConstraints firstColumn = new ColumnConstraints(250);
+    ColumnConstraints secondColumn = new ColumnConstraints(350);
+    ColumnConstraints thirdColumn = new ColumnConstraints(250);
+    gridPane.getColumnConstraints().addAll(firstColumn, secondColumn, thirdColumn);
     gridPane.setVgap(20);
     gridPane.setHgap(20);
     gridPane.setAlignment(Pos.TOP_CENTER);
