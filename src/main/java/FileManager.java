@@ -135,12 +135,15 @@ class FileManager {
     File file = new File(fileName + ".txt");
     if (file.exists()) {
       if (file.delete()) {
-        System.out.println("File was deleted. Good job.");
+        this.message = "File was deleted. Good job.";
+        this.status = "Success"; 
       } else {
-        System.out.println("Unfortunatelly we couldn't delete the file.");
+        this.message = "Unfortunatelly we couldn't delete the file.";
+        this.status = "Error";
       }
     } else {
-      System.out.println("This file no longer exists. It's gone.");
+      this.message = "This file no longer exists. It's gone.";
+      this.status = "Informational";
     }
   }
 

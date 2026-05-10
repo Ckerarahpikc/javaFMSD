@@ -270,6 +270,13 @@ public class App extends Application {
       statusLabel.setText("Status: " + fileService.getStatus());
     });
 
+    deleteFileButton.setOnAction(e -> {
+      fileService.deleteFile();
+
+      messageLabel.setText("Message: " + fileService.getMessage());
+      statusLabel.setText("Status: " + fileService.getStatus());
+    });
+
     exitProgramButton.setOnAction(event -> {
       Platform.exit();
     });
