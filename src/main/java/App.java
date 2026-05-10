@@ -273,7 +273,9 @@ public class App extends Application {
     deleteFileButton.setOnAction(e -> {
       fileService.deleteFile();
       fileNameField.setEditable(true);
-      
+      fileNameField.clear();
+      createFileButton.setDisable(false);
+
       messageLabel.setText("Message: " + fileService.getMessage());
       statusLabel.setText("Status: " + fileService.getStatus());
     });
