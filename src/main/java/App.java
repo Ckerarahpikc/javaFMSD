@@ -36,6 +36,23 @@ public class App extends Application {
     GridPane gridPane = new GridPane();
     HBox lineBoxCreateFile = new HBox(30);
     HBox lineBoxEditFile = new HBox(30);
+    HBox nrBox = new HBox(10);
+    HBox fNameBox = new HBox(10);
+    HBox lNameBox = new HBox(10);
+    HBox addressBox = new HBox(10);
+    HBox phoneBox = new HBox(10);
+    HBox profileBox = new HBox(10);
+    HBox yearBox = new HBox(10);
+    HBox gradeBox = new HBox(10);
+
+    HBox editNrBox = new HBox(10);
+    HBox editFNameBox = new HBox(10);
+    HBox editLNameBox = new HBox(10);
+    HBox editAddressBox = new HBox(10);
+    HBox editPhoneBox = new HBox(10);
+    HBox editProfileBox = new HBox(10);
+    HBox editYearBox = new HBox(10);
+    HBox editGradeBox = new HBox(10);
 
     // this doesn't work
     // gridPane.setFocusTraversable(true);
@@ -50,7 +67,7 @@ public class App extends Application {
     Button createFileButton = new Button("Create File");
     Button addDataButton = new Button("Add Data");
     Button viewFileButton = new Button("View File");
-    Button editFileButton = new Button("Edit File By ID");
+    Button editFileButton = new Button("Find Person by ID");
     Button deleteFileButton = new Button("Delete File");
     Button executeTaskButton = new Button("Execute Task");
     Button exitProgramButton = new Button("Exit");
@@ -81,21 +98,13 @@ public class App extends Application {
     // placeholders
     fileNameField.setPromptText("e.g. elevi");
     nrField.setPromptText("000");
-    editNrField.setPromptText("000");
     fNameField.setPromptText("Alan");
-    editFNameField.setPromptText("Alan");
     lNameField.setPromptText("Turing");
-    editLNameField.setPromptText("Turing");
     addressField.setPromptText("New Bridge 5/6 st.");
-    editAddressField.setPromptText("New Bridge 5/6 st.");
     phoneField.setPromptText("1234 56 789");
-    editPhoneField.setPromptText("1234 56 789");
     profileField.setPromptText("Science");
-    editProfileField.setPromptText("Science");
     yearField.setPromptText("1-12");
-    editYearField.setPromptText("1-12");
     gradeField.setPromptText("4.00-10.00");
-    editGradeField.setPromptText("4.00-10.00");
     findIdField.setPromptText("ID");
 
     // disable initial buttons
@@ -109,8 +118,8 @@ public class App extends Application {
         .or(yearField.textProperty().isEmpty())
         .or(gradeField.textProperty().isEmpty())
         .or(fileNameField.textProperty().isEmpty()));
-    viewFileButton.disableProperty().bind(fileNameField.textProperty().isEmpty());
-    deleteFileButton.disableProperty().bind(findIdField.textProperty().isEmpty());
+    viewFileButton.setDisable(true);
+    deleteFileButton.setDisable(true);
     editFileButton.disableProperty().bind(findIdField.textProperty().isEmpty()
         .or(fileNameField.textProperty().isEmpty())
         .or(editNrField.textProperty().isEmpty())
@@ -121,7 +130,7 @@ public class App extends Application {
         .or(editProfileField.textProperty().isEmpty())
         .or(editYearField.textProperty().isEmpty())
         .or(editGradeField.textProperty().isEmpty()));
-    executeTaskButton.disableProperty().bind(fileNameField.textProperty().isEmpty());
+    executeTaskButton.setDisable(true);
 
     // FUNCTIONALITY =====================================
     createFileButton.setOnAction(event -> { // create file
@@ -138,6 +147,10 @@ public class App extends Application {
         deleteFileButton.setDisable(false);
         createFileButton.disableProperty().unbind();
         createFileButton.setDisable(true);
+        viewFileButton.disableProperty().unbind();
+        viewFileButton.setDisable(false);
+        executeTaskButton.disableProperty().unbind();
+        executeTaskButton.setDisable(false);
 
         // fileNameField.clear();
         fileNameField.setEditable(false);
@@ -181,11 +194,10 @@ public class App extends Application {
     viewFileButton.setOnAction(event -> {
       fileService.showFileContent();
 
-      // stage
+      // stage (window)
       Stage secondaryStage = new Stage();
       secondaryStage.setTitle("Content");
 
-      // vbox (layout);
       VBox secondaryLayout = new VBox(20);
       Label contentLabel = new Label(fileService.getMessage());
 
@@ -193,13 +205,17 @@ public class App extends Application {
       closeLayoutButton.setOnAction(e -> secondaryStage.close());
 
       secondaryLayout.getChildren().addAll(contentLabel, closeLayoutButton);
-     
+
       // create the scene and show the stage
       Scene sceneContent = new Scene(secondaryLayout, 500, 300);
       secondaryStage.setScene(sceneContent);
 
       secondaryStage.show();
     });
+
+    // editFileButton.setOnAction(event -> {
+    // fileService.modifyFileContent();
+    // });
 
     exitProgramButton.setOnAction(event -> {
       Platform.exit();
@@ -209,30 +225,43 @@ public class App extends Application {
     gridPane.setGridLinesVisible(false); // show grid lines
 
     // layout first column
-    gridPane.add(addDataButton, 1, 5);
-    gridPane.add(nrField, 1, 6);
-    gridPane.add(fNameField, 1, 7);
-    gridPane.add(lNameField, 1, 8);
-    gridPane.add(addressField, 1, 9);
-    gridPane.add(phoneField, 1, 10);
-    gridPane.add(profileField, 1, 11);
-    gridPane.add(yearField, 1, 12);
-    gridPane.add(gradeField, 1, 13);
+    nrBox.getChildren().addAll(new Label("ID"), nrField);
+    nrBox.setAlignment(Pos.CENTER_LEFT);
+    fNameBox.getChildren().addAll(new Label("First Name"), fNameField);
+    fNameBox.setAlignment(Pos.CENTER_LEFT);
+    lNameBox.getChildren().addAll(new Label("Last Name"), lNameField);
+    lNameBox.setAlignment(Pos.CENTER_LEFT);
+    addressBox.getChildren().addAll(new Label("Address"), addressField);
+    addressBox.setAlignment(Pos.CENTER_LEFT);
+    phoneBox.getChildren().addAll(new Label("Phone"), phoneField);
+    phoneBox.setAlignment(Pos.CENTER_LEFT);
+    profileBox.getChildren().addAll(new Label("Profile"), profileField);
+    profileBox.setAlignment(Pos.CENTER_LEFT);
+    yearBox.getChildren().addAll(new Label("Year (int)"), yearField);
+    yearBox.setAlignment(Pos.CENTER_LEFT);
+    gradeBox.getChildren().addAll(new Label("Grade (float)"), gradeField);
+    gradeBox.setAlignment(Pos.CENTER_LEFT);
 
-    gridPane.setHalignment(addDataButton, HPos.CENTER);
-    gridPane.setHalignment(nrField, HPos.CENTER);
-    gridPane.setHalignment(fNameField, HPos.CENTER);
-    gridPane.setHalignment(lNameField, HPos.CENTER);
-    gridPane.setHalignment(addressField, HPos.CENTER);
-    gridPane.setHalignment(phoneField, HPos.CENTER);
-    gridPane.setHalignment(profileField, HPos.CENTER);
-    gridPane.setHalignment(yearField, HPos.CENTER);
-    gridPane.setHalignment(gradeField, HPos.CENTER);
+    gridPane.add(addDataButton, 1, 5);
+    gridPane.add(nrBox, 1, 6);
+    gridPane.add(fNameBox, 1, 7);
+    gridPane.add(lNameBox, 1, 8);
+    gridPane.add(addressBox, 1, 9);
+    gridPane.add(phoneBox, 1, 10);
+    gridPane.add(profileBox, 1, 11);
+    gridPane.add(yearBox, 1, 12);
+    gridPane.add(gradeBox, 1, 13);
+
+    gridPane.setHalignment(addDataButton, HPos.LEFT);
 
     // layout second column
     gridPane.add(greetingLabel, 2, 1);
     gridPane.add(messageLabel, 2, 2);
     gridPane.add(statusLabel, 2, 3);
+
+    gridPane.setHalignment(messageLabel, HPos.CENTER);
+    gridPane.setHalignment(statusLabel, HPos.CENTER);
+    gridPane.setHalignment(greetingLabel, HPos.CENTER);
 
     lineBoxCreateFile.getChildren().addAll(createFileButton, fileNameField);
     lineBoxCreateFile.setAlignment(Pos.CENTER);
@@ -242,22 +271,39 @@ public class App extends Application {
     lineBoxEditFile.setAlignment(Pos.CENTER);
     gridPane.add(lineBoxEditFile, 2, 5);
 
-    gridPane.add(editNrField, 2, 6);
-    gridPane.add(editFNameField, 2, 7);
-    gridPane.add(editLNameField, 2, 8);
-    gridPane.add(editAddressField, 2, 9);
-    gridPane.add(editPhoneField, 2, 10);
-    gridPane.add(editProfileField, 2, 11);
-    gridPane.add(editYearField, 2, 12);
-    gridPane.add(editGradeField, 2, 13);
+    editNrBox.getChildren().addAll(new Label("Edit ID"), editNrField);
+    editNrBox.setAlignment(Pos.CENTER);
+    editFNameBox.getChildren().addAll(new Label("Edit First Name"), editFNameField);
+    editFNameBox.setAlignment(Pos.CENTER);
+    editLNameBox.getChildren().addAll(new Label("Edit Last Name"), editLNameField);
+    editLNameBox.setAlignment(Pos.CENTER);
+    editAddressBox.getChildren().addAll(new Label("Edit Address"), editAddressField);
+    editAddressBox.setAlignment(Pos.CENTER);
+    editPhoneBox.getChildren().addAll(new Label("Edit Phone"), editPhoneField);
+    editPhoneBox.setAlignment(Pos.CENTER);
+    editProfileBox.getChildren().addAll(new Label("Edit Profile"), editProfileField);
+    editProfileBox.setAlignment(Pos.CENTER);
+    editYearBox.getChildren().addAll(new Label("Edit Year"), editYearField);
+    editYearBox.setAlignment(Pos.CENTER);
+    editGradeBox.getChildren().addAll(new Label("Edit Grade"), editGradeField);
+    editGradeBox.setAlignment(Pos.CENTER);
+
+    gridPane.add(editNrBox, 2, 6);
+    gridPane.add(editFNameBox, 2, 7);
+    gridPane.add(editLNameBox, 2, 8);
+    gridPane.add(editAddressBox, 2, 9);
+    gridPane.add(editPhoneBox, 2, 10);
+    gridPane.add(editProfileBox, 2, 11);
+    gridPane.add(editYearBox, 2, 12);
+    gridPane.add(editGradeBox, 2, 13);
 
     // layout third column
     Label otherFunctionsText = new Label("Other Functions");
-    gridPane.setHalignment(otherFunctionsText, HPos.CENTER);
-    gridPane.setHalignment(viewFileButton, HPos.CENTER);
-    gridPane.setHalignment(deleteFileButton, HPos.CENTER);
-    gridPane.setHalignment(executeTaskButton, HPos.CENTER);
-    gridPane.setHalignment(exitProgramButton, HPos.CENTER);
+    gridPane.setHalignment(otherFunctionsText, HPos.RIGHT);
+    gridPane.setHalignment(deleteFileButton, HPos.RIGHT);
+    gridPane.setHalignment(executeTaskButton, HPos.RIGHT);
+    gridPane.setHalignment(exitProgramButton, HPos.RIGHT);
+    gridPane.setHalignment(viewFileButton, HPos.RIGHT);
     gridPane.add(otherFunctionsText, 3, 5);
     gridPane.add(viewFileButton, 3, 6);
     gridPane.add(deleteFileButton, 3, 7);
@@ -265,10 +311,6 @@ public class App extends Application {
     gridPane.add(exitProgramButton, 3, 9);
 
     // positioning
-    gridPane.setHalignment(messageLabel, HPos.CENTER);
-    gridPane.setHalignment(statusLabel, HPos.CENTER);
-    gridPane.setHalignment(greetingLabel, HPos.CENTER);
-
     gridPane.setVgap(20);
     gridPane.setHgap(20);
     gridPane.setAlignment(Pos.TOP_CENTER);

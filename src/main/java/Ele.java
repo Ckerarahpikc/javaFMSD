@@ -7,8 +7,6 @@
 // variantă
 //
 // Elevi (nr, nume, prenume, adresă, telefon, profil, clasă, notă)
-package lab1;
-
 import java.util.Scanner;
 import java.lang.StringBuilder;
 
