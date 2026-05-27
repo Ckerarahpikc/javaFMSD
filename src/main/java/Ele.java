@@ -1,12 +1,3 @@
-
-// Scrieți un program care permite crearea unei clase simple la tema indicată mai jos, 
-// având ca metode (funcții) citirea și afișarea fiecărui câmp (set-teri și get- teri), precum 
-// și o metodă care calculează o valoare nouă a unui sau a mai multor câmpuri (ca exemplu, 
-// de convertit prețul din lei în EURO sau de calculat durata deplasării). Tema, pe baza 
-// căreia trebuie să creați clasa, precum și câmpurile private obligatorii, sunt indicate în 
-// variantă
-//
-// Elevi (nr, nume, prenume, adresă, telefon, profil, clasă, notă)
 import java.util.Scanner;
 import java.lang.StringBuilder;
 
@@ -25,15 +16,6 @@ public class Ele {
   public static void main(String[] args) {
     // System.out.println("The Class is working...");
     // Ele el = new Ele();
-    //
-    // el.setNr("010.");
-    // el.setFName("Ivanov");
-    // el.setLName("Alexandru");
-    // el.setAddress("Str. Puskin 2/3");
-    // el.setPhone("067 123 4567");
-    // el.setProfile("Real");
-    // el.setYear(11);
-    // el.setGrade(8.45);
     //
     // int fullNameLength = el.getNameLength();
     // System.out.println("Name length: " + fullNameLength);
